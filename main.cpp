@@ -7,11 +7,15 @@ int main(int argc, char *argv[])
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 #endif
     QGuiApplication app(argc, argv);
+    app.setOrganizationDomain("OrgDomain");
+    app.setOrganizationName("OrgName");
+
 
    // MailGun gun;
    // gun.sendMessage("vvs.seal@gmail.com","sad");
 
     QQmlApplicationEngine engine;
+
     const QUrl url(QStringLiteral("qrc:/main.qml"));
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
                      &app, [url](QObject *obj, const QUrl &objUrl) {
