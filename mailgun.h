@@ -9,6 +9,7 @@ class MailGun : public QObject
 public:
     explicit MailGun(QObject *parent = nullptr);
     void sendMessage(std::string recipient, std::string msg);
+    Q_INVOKABLE void readFile(const QString& filename);
     ~MailGun();
 
 

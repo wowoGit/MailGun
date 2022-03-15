@@ -28,6 +28,21 @@ void MailGun::sendMessage(std::string recipient, std::string msg)
    client->sendMail(message);
 }
 
+void MailGun::readFile(const QString &filename)
+{
+    QFile file(filename);
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
+    {
+        qDebug() << filename;
+        return;
+    }
+    QTextStream stream(&file);
+    auto line = stream.readAll();
+    qDebug() << line;
+    file.close();
+
+}
+
 MailGun::~MailGun()
 {
     client->quit();

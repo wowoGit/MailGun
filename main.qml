@@ -14,7 +14,7 @@ Window {
     color: bgColor
     readonly property int defMargin: 10
     readonly property color bgColor: "#52b788"
-    readonly property color fontColor: "#d8f3dc"
+    readonly property color fontColor: "black"
     readonly property color ctrlColor: "#2d6a4f"
     readonly property color fieldColor: "#d8f3dc"
     readonly property color eventColor: "#AEFEFF"
@@ -22,7 +22,18 @@ Window {
     Row {
         width: parent.width
         height:25
+        FileDialog {
+            id: fd
+            folder: shortcuts.desktop
+            onAccepted: {
+                var path = fd.fileUrl.toString();
+                path = path.replace("file:///","");
+                gun.readFile(path);
+
+            }
+        }
         Rectangle {
+            anchors.rightMargin: defMargin
             width: parent.width / 3
             height: parent.height
             id: rect
@@ -30,16 +41,15 @@ Window {
             border.width: 1
             radius: 5
             color: mainwindow.fieldColor
-        TextInput {
-           width: parent.width
-           text: fd.fileUrl
-           padding: 5
-           color: mainwindow.fontColor
-        }
+            TextInput {
+                width: parent.width
+                padding: 5
+                color: mainwindow.fontColor
+                text: fd.fileUrl
+            }
         }
 
         RoundButton {
-            anchors.leftMargin: 10
             height: 25
             width: 90
             text: "Choose File..."
@@ -61,14 +71,10 @@ Window {
                 radius:5
             }
             onClicked: {
-               fd.open()
+                fd.open();
             }
 
-            FileDialog {
-                id: fd
-               folder: shortcuts.home
-
-            }
         }
     }
+
 }
