@@ -1,5 +1,8 @@
 <RCC>
     <qresource prefix="/">
         <file>main.qml</file>
+        <file>MG_TextInput.qml</file>
+        <file>MG_Button.qml</file>
+        <file>MG_TextArea.qml</file>
     </qresource>
 </RCC>

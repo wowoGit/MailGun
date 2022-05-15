@@ -1,7 +1,8 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include "QQmlContext"
-#include "mailgun.h"
+#include "app.h"
+#include "SmtpMime"
 int main(int argc, char *argv[])
 {
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
@@ -12,12 +13,12 @@ int main(int argc, char *argv[])
     app.setOrganizationName("OrgName");
 
 
-   MailGun gun;
+    App mail_app(new SmtpClient());
    // gun.sendMessage("vvs.seal@gmail.com","sad");
 
     QQmlApplicationEngine engine;
     QQmlContext *context = engine.rootContext();
-    context->setContextProperty("gun",&gun);
+    context->setContextProperty("app",&mail_app);
     const QUrl url(QStringLiteral("qrc:/main.qml"));
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
                      &app, [url](QObject *obj, const QUrl &objUrl) {

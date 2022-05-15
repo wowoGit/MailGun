@@ -5,18 +5,23 @@
 
 class MailGun : public QObject
 {
+    struct MailInfo
+    {
+       QString sender_name;
+       QString message;
+       QString recipient_address;
+       QVector<class QFile*> attached_files;
+    };
+
     Q_OBJECT
 public:
-    explicit MailGun(QObject *parent = nullptr);
-    void sendMessage(std::string recipient, std::string msg);
-    Q_INVOKABLE void readFile(const QString& filename);
+    explicit MailGun(class SmtpClient* smtp_client,QObject *parent = nullptr);
+    bool sendMessage(const MailInfo& mail_info);
     ~MailGun();
 
 
 private:
-    std::string bot_mail;
-    std::string mail_pass;
-    class SmtpClient* client;
+    SmtpClient* m_client;
 
 
 
