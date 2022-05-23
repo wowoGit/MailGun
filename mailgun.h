@@ -5,6 +5,9 @@
 
 class MailGun : public QObject
 {
+
+    Q_OBJECT
+public:
     struct MailInfo
     {
        QString sender_name;
@@ -12,9 +15,6 @@ class MailGun : public QObject
        QString recipient_address;
        QVector<class QFile*> attached_files;
     };
-
-    Q_OBJECT
-public:
     explicit MailGun(class SmtpClient* smtp_client,QObject *parent = nullptr);
     bool sendMessage(const MailInfo& mail_info);
     ~MailGun();

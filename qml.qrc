@@ -4,5 +4,6 @@
         <file>MG_TextInput.qml</file>
         <file>MG_Button.qml</file>
         <file>MG_TextArea.qml</file>
+        <file>MG_LIstView.qml</file>
     </qresource>
 </RCC>

@@ -23,6 +23,7 @@ Window {
         target: app
         onProcess_emails: {
             txt_area.area.text = emails_list;
+
         }
     }
 
@@ -79,13 +80,23 @@ Window {
            }
         }
 
-        MG_TextArea{
-            id: txt_area
-            Layout.columnSpan: 2
-            Layout.fillWidth: true
-            width: 100
-            height:200
-            rect.color: mainwindow.fieldColor
+//        MG_TextArea{
+//            id: txt_area
+//            Layout.columnSpan: 2
+//            Layout.fillWidth: true
+//            width: 100
+//            height:200
+//            rect.color: mainwindow.fieldColor
+//            }
+
+            MG_LIstView {
+                rect.color: mainwindow.fieldColor
+                Layout.columnSpan: 2
+                Layout.fillWidth: true
+                width: 100
+                clip: true
+                height:200
+                lview.model: app.recipients
             }
 
         }

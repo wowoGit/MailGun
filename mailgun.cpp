@@ -28,11 +28,6 @@ bool MailGun::sendMessage(const MailInfo& mail_info)
    txt.setText(mail_info.message);
    message.addPart(&txt);
 
-   for (auto&& file : mail_info.attached_files)
-   {
-        MimeFile mail_file(file);
-        message.addPart(&mail_file);
-   }
 
 
    if (m_client->sendMail(message))

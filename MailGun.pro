@@ -5,13 +5,15 @@ QT += quick
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 HEADERS += mailgun.h \
     app.h \
-    filereader.h
+    filereader.h \
+    message.h
 
 SOURCES += \
         app.cpp \
         filereader.cpp \
         mailgun.cpp \
-        main.cpp
+        main.cpp \
+        message.cpp
 
 RESOURCES += qml.qrc
 

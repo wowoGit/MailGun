@@ -12,7 +12,7 @@ public:
     QStringList readFile(const QString& filepath);
 
 signals:
-    QStringList emails_read(QStringList);
+    void emails_read(QStringList);
 
 private:
     class QFile* m_qfile;

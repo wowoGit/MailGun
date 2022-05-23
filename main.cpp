@@ -3,6 +3,7 @@
 #include "QQmlContext"
 #include "app.h"
 #include "SmtpMime"
+#include "filereader.h"
 int main(int argc, char *argv[])
 {
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
@@ -20,6 +21,7 @@ int main(int argc, char *argv[])
     QQmlContext *context = engine.rootContext();
     context->setContextProperty("app",&mail_app);
     const QUrl url(QStringLiteral("qrc:/main.qml"));
+    qmlRegisterType<FileReader>("FileReaders",1,0,"Freader");
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
                      &app, [url](QObject *obj, const QUrl &objUrl) {
         if (!obj && url == objUrl)
