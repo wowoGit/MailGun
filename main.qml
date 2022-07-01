@@ -7,8 +7,8 @@ import QtQuick.Layouts 1.3
 
 Window {
 
-    width: 300
-    height: 250
+    width: 700
+    height: 500
     visible: true
     title: qsTr("Hello World")
     id: mainwindow
@@ -40,68 +40,21 @@ Window {
 
     Rectangle {
         anchors.fill: parent
-        anchors.topMargin: 10
-        gradient: Gradient {
-                GradientStop {position: -10; color: mainwindow.ctrlColor; }
-                GradientStop {position: 0.33; color: mainwindow.bgColor; }
-                GradientStop {position: 1.0; color: mainwindow.fieldColor; }
-            }
+        color: "#ffffff"
+   }
+    SideBar {
+        id: sidebar
+    }
 
-    GridLayout {
-        anchors.fill: parent
-        rows: 3
-        columns: 3
-        FileDialog {
-            id: fd
-            folder: shortcuts.desktop
-            onAccepted: {
-
-            }
+    Loader {
+        anchors {
+            left: sidebar.right
+            right: parent.right
+            top: parent.top
+            bottom: parent.bottom
         }
-        ColumnLayout {
-            Layout.leftMargin: 20
-            Layout.rightMargin: 20
-            RowLayout{
-        MG_TextInput {
-            Layout.fillWidth: true
-            Layout.columnSpan: 2
-            id: ti
-            text: "Path to emails file..."
-            color: mainwindow.fieldColor
-        }
-        MG_Button {
-            id: btn
-            bg_color: mainwindow.ctrlColor
-            fg_color: mainwindow.fontColor
-            button_rect.border.color: button.hovered ? mainwindow.eventColor : mainwindow.fontColor
-            button.onClicked: {
-                fd.open()
-            }
-           }
-        }
+        source: "StackViewPage.qml"
+    }
 
-//        MG_TextArea{
-//            id: txt_area
-//            Layout.columnSpan: 2
-//            Layout.fillWidth: true
-//            width: 100
-//            height:200
-//            rect.color: mainwindow.fieldColor
-//            }
-
-            MG_LIstView {
-                rect.color: mainwindow.fieldColor
-                Layout.columnSpan: 2
-                Layout.fillWidth: true
-                width: 100
-                clip: true
-                height:200
-                lview.model: app.recipients
-            }
-
-        }
-
-        }
-}
 
     }

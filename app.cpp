@@ -24,7 +24,7 @@ void App::sendAll()
     }
     MailGun::MailInfo info;
     for(const auto& address : m_recipients) {
-        m_mailgun->sendMessage()
+        //m_mailgun->sendMessage()
     }
 
 }

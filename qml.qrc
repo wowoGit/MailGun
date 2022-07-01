@@ -5,5 +5,11 @@
         <file>MG_Button.qml</file>
         <file>MG_TextArea.qml</file>
         <file>MG_LIstView.qml</file>
+        <file>SideBar.qml</file>
+        <file>SideBarButton.qml</file>
+        <file>SideBarCloseButton.qml</file>
+        <file>StackViewPage.qml</file>
+        <file>SMTPServerPage.qml</file>
+        <file>StyledButton.qml</file>
     </qresource>
 </RCC>
