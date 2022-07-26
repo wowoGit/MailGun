@@ -3,10 +3,12 @@ import QtQuick.Controls 2.5
 import QtGraphicalEffects 1.12
 
 Item {
+    id: root
     width:76
     height:24
     property alias text: rbutton.text
-
+    property alias font: rbutton.font
+    signal clicked()
     RoundButton{
           id: rbutton;
             width: parent.width
@@ -31,7 +33,7 @@ Item {
                 radius:5
                 color:"#FF7582"
             }
-            onClicked: console.log("asd")
+            onClicked: {root.clicked()}
             hoverEnabled: true
             onHoveredChanged: {
                 if(hovered) {
@@ -55,6 +57,7 @@ Item {
     }
     MouseArea {
         id: mousearea
+        onClicked: root.clicked()
         anchors.fill: rbutton
     }
 }

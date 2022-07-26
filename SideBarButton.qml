@@ -4,7 +4,9 @@ import QtQuick.Controls 2.5
 Item {
     width:130
     height:35
+    z: 1
     property alias text: rbutton.text
+    property alias font: contItem.font
 
     RoundButton{
           id: rbutton;

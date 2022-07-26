@@ -11,5 +11,9 @@
         <file>StackViewPage.qml</file>
         <file>SMTPServerPage.qml</file>
         <file>StyledButton.qml</file>
+        <file>StyledTextInput.qml</file>
+        <file>MessagePage.qml</file>
+        <file>StyledTextArea.qml</file>
+        <file>StyledText.qml</file>
     </qresource>
 </RCC>

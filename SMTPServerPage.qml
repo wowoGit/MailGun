@@ -1,7 +1,6 @@
 import QtQuick 2.0
 import QtQuick.Layouts 1.3
 import QtQuick.Controls 2.15
-
 Item {
     anchors.fill: parent
     Rectangle {
@@ -40,18 +39,7 @@ Item {
                             font.pixelSize: 12
                             color:"#CACACA"
                         }
-                        TextField {
-                            width: 150
-                            height: 25
-                            Layout.fillWidth: true
-                            background: Rectangle {
-                                implicitWidth: 150
-                                width: 150
-                                height: 25
-                                anchors.fill: parent
-                                radius: 5
-                                color: "white"
-                            }
+                        StyledTextInput {
 
                         }
                     }
@@ -64,18 +52,7 @@ Item {
                             font.pixelSize: 12
                             color:"#CACACA"
                         }
-                        TextField {
-                            Layout.fillWidth: true
-                            width: 150
-                            height: 25
-                            background: Rectangle {
-                                implicitWidth: 150
-                                width: 150
-                                height: 25
-                                anchors.fill: parent
-                                radius: 5
-                                color: "white"
-                            }
+                        StyledTextInput {
 
                         }
                     }
@@ -92,15 +69,7 @@ Item {
                             font.pixelSize: 12
                             color:"#CACACA"
                         }
-                        TextField {
-                            Layout.fillWidth: true
-                            background: Rectangle {
-                                implicitWidth: 150
-                                height: 25
-                                anchors.fill: parent
-                                radius: 5
-                                color: "white"
-                            }
+                        StyledTextInput {
 
                         }
                     }
@@ -113,15 +82,7 @@ Item {
                             font.pixelSize: 12
                             color:"#CACACA"
                         }
-                        TextField {
-                            Layout.fillWidth: true
-                            background: Rectangle {
-                                implicitWidth: 150
-                                height: 25
-                                anchors.fill: parent
-                                radius: 5
-                                color: "white"
-                            }
+                        StyledTextInput {
 
                         }
                     }
@@ -138,5 +99,24 @@ Item {
 
             }
         }
+//        Popup {
+//            contentItem:
+//                Text {
+//                    text: "asd"
+//                }
+//            id: popup
+//                    x: 100
+//                    y: 100
+//                    width: 200
+//                    height: 300
+//                    modal: true
+//                    focus: true
+//                    closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutsideParent
+//            Component.onCompleted: popup.open()
+
+//            enter: Transition {
+//                NumberAnimation { property: "opacity"; from: 0.0; to: 1.0 }
+//            }
+//        }
     }
 
