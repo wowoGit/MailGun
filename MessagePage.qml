@@ -1,10 +1,13 @@
 import QtQuick 2.0
 import QtQuick.Layouts 1.3
 import QtQuick.Dialogs 1.3
+import "js/func.js" as Utils
 
 Item {
     id: root
     anchors.fill: parent
+    property alias mailHeader: header_input.text
+    property alias mailMessage: message_input.text
 
     Rectangle {
         anchors.fill: parent
@@ -27,7 +30,7 @@ Item {
                     Text {
                         Layout.fillWidth: true
                         id: header
-                        text: "Setup a message"
+                        text: "Set up a message"
                         font.family: "Inter"
                         font.weight: Font.DemiBold
                         font.pixelSize: 22
@@ -50,7 +53,9 @@ Item {
                             text: "Mail Header"
                             font.pixelSize: 14
                         }
-                        StyledTextInput {}
+                        StyledTextInput {
+                            id: header_input
+                        }
                         }
                         }
 
@@ -64,6 +69,7 @@ Item {
                             font.pixelSize: 14
                         }
                         StyledTextArea {
+                            id: message_input
                             implicitWidth: 200
                             implicitHeight: root.height - 300
                         }
@@ -73,6 +79,9 @@ Item {
 
                     RowLayout {
                         Layout.alignment: Qt.AlignRight
+                        StyledText {
+                            id: text;
+                        }
                         ColumnLayout {
                             StyledButton {
                             width: 100
@@ -90,6 +99,7 @@ Item {
 
         FileDialog {
             id: fd
+            onAccepted: text.text += Utils.fnamefromFpath(fd.fileUrl)
 
         }
 }

@@ -30,6 +30,7 @@ Item {
             height:35
             font.pixelSize: 15
             text: "Recipients"
+            onClicked: item.state = "recipients"
             }
         }
         RowLayout {

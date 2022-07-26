@@ -15,12 +15,14 @@ public:
 
     explicit App(class SmtpClient* client_info, QObject *parent = nullptr);
     const QStringList& recipients() const;
-    void sendAll();
+    Q_INVOKABLE
+    void sendAll(const QString& header, const QString& body);
     ~App();
 
 private:
-    class FileReader* m_freader;
-    class MailGun* m_mailgun;
+    class FileReader* m_freader = nullptr;
+    class MailGun* m_mailgun = nullptr;
+    class Message* mail = nullptr;
     QStringList m_recipients;
 
 
@@ -31,6 +33,7 @@ signals:
 
 public slots:
    void file_submitted(const QString& filepath);
+   void connectToServer(const QString& host, int port, const QString& login, const QString& password );
 private slots:
    void file_read(QStringList);
 

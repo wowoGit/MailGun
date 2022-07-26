@@ -9,6 +9,8 @@ TextField {
     height: 25
     font.pixelSize: 12
     Layout.fillWidth: true
+    selectByMouse: true
+    selectionColor: "steelblue"
     background: Rectangle {
         implicitWidth: 150
         width: 150

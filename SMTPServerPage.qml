@@ -3,6 +3,11 @@ import QtQuick.Layouts 1.3
 import QtQuick.Controls 2.15
 Item {
     anchors.fill: parent
+    property alias host: host_input.text
+    property alias port: port_input.text
+    property alias login: login_input.text
+    property alias password: password_input.text
+    signal connect()
     Rectangle {
         anchors.fill: parent
         color: "#365C7D"
@@ -20,7 +25,7 @@ Item {
                     Text {
                         Layout.fillWidth: true
                         id: header
-                        text: "Setup SMTP connection"
+                        text: "Set up SMTP connection"
                         font.family: "Inter"
                         font.weight: Font.DemiBold
                         font.pixelSize: 22
@@ -40,6 +45,7 @@ Item {
                             color:"#CACACA"
                         }
                         StyledTextInput {
+                            id: host_input
 
                         }
                     }
@@ -53,6 +59,7 @@ Item {
                             color:"#CACACA"
                         }
                         StyledTextInput {
+                            id: port_input
 
                         }
                     }
@@ -70,6 +77,7 @@ Item {
                             color:"#CACACA"
                         }
                         StyledTextInput {
+                            id: login_input
 
                         }
                     }
@@ -83,7 +91,7 @@ Item {
                             color:"#CACACA"
                         }
                         StyledTextInput {
-
+                            id: password_input
                         }
                     }
 
@@ -92,7 +100,9 @@ Item {
                       Layout.alignment: Qt.AlignRight
                       Layout.topMargin: 10
                    StyledButton {
+                       id: connect_button
                        text: "Connect"
+                       onClicked: connect()
                    }
 
                 }

@@ -1,5 +1,6 @@
 #include "mailgun.h"
 #include "SmtpMime"
+#include "message.h"
 
 MailGun::MailGun(SmtpClient* m_client, QObject *parent)
     : QObject{parent}
@@ -18,22 +19,35 @@ MailGun::MailGun(SmtpClient* m_client, QObject *parent)
     }
 }
 
-bool MailGun::sendMessage(const MailInfo& mail_info)
+void MailGun::setupConnection(const QString &host, int port, const QString &login, const QString &password)
 {
-   MimeMessage message;
-   message.setSender(new EmailAddress(m_client->getUser(), mail_info.sender_name));
-   message.addRecipient(new EmailAddress(mail_info.recipient_address));
 
-   MimeText txt;
-   txt.setText(mail_info.message);
-   message.addPart(&txt);
+    m_client = new SmtpClient(host,port,SmtpClient::SslConnection);
+    m_client->setUser(login);
+    m_client->setPassword(password);
+    if (!m_client->connectToHost()) {
+       qDebug() << "could not connect to provided host!";
+    }
+    if(!m_client->login()) {
+       qDebug() << "could not login with provided credentials!";
+    }
+}
 
-
-
-   if (m_client->sendMail(message))
+bool MailGun::sendMessage(const QString& header, const QString& body,const QString& recipient)
+{
+   MimeMessage* mail = new MimeMessage();
+   mail->setSubject(header);
+   auto mail_body = new MimeText(body);
+   mail->addPart(mail_body);
+   mail->addRecipient(new EmailAddress(recipient));
+   mail->setSender(new EmailAddress(m_client->getUser()));
+   if (m_client->sendMail(*mail)){
+       delete mail;
        return true;
+   }
 
 
+   delete mail;
    return false;
 }
 

@@ -4,7 +4,7 @@
         <file>MG_TextInput.qml</file>
         <file>MG_Button.qml</file>
         <file>MG_TextArea.qml</file>
-        <file>MG_LIstView.qml</file>
+        <file>StyledListView.qml</file>
         <file>SideBar.qml</file>
         <file>SideBarButton.qml</file>
         <file>SideBarCloseButton.qml</file>
@@ -15,5 +15,7 @@
         <file>MessagePage.qml</file>
         <file>StyledTextArea.qml</file>
         <file>StyledText.qml</file>
+        <file>RecipientsPage.qml</file>
+        <file>js/func.js</file>
     </qresource>
 </RCC>

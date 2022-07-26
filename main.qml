@@ -37,6 +37,10 @@ ApplicationWindow
                 target: message_page; visible: false
 
             }
+            PropertyChanges {
+                target: recipients_page; visible: false
+
+            }
             },
         State{
             name: "message"
@@ -47,11 +51,39 @@ ApplicationWindow
                 target: smtp_page; visible: false
 
             }
+            PropertyChanges {
+                target: recipients_page; visible: false
+
+            }
+
+    },
+        State{
+            name: "recipients"
+            PropertyChanges {
+                target: message_page; visible: false
+        }
+            PropertyChanges {
+                target: smtp_page; visible: false
+
+            }
+            PropertyChanges {
+                target: recipients_page; visible: true
+
+            }
 
     }
     ]
-    SMTPServerPage {id: smtp_page}
+    SMTPServerPage {
+        id: smtp_page
+        onConnect: app.connectToServer(smtp_page.host,smtp_page.port, smtp_page.login, smtp_page.password)
+    }
     MessagePage {id: message_page}
+    RecipientsPage {
+        id: recipients_page
+        onSendMail: {
+            app.sendAll(message_page.mailHeader, message_page.mailMessage)
+        }
+    }
     }
 
     FontLoader {

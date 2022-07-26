@@ -2,6 +2,7 @@
 #include <QQmlContext>
 #include "filereader.h"
 #include "mailgun.h"
+#include "message.h"
 
 App::App(SmtpClient* client_info, QObject *parent)
     : QObject{parent}
@@ -16,15 +17,14 @@ const QStringList &App::recipients() const
     return m_recipients;
 }
 
-void App::sendAll()
+void App::sendAll(const QString& header, const QString& body)
 {
     if(m_recipients.empty())
     {
         return;
     }
-    MailGun::MailInfo info;
-    for(const auto& address : m_recipients) {
-        //m_mailgun->sendMessage()
+    for(const auto& recipient : m_recipients) {
+        m_mailgun->sendMessage(header,body,recipient);
     }
 
 }
@@ -43,6 +43,14 @@ void App::file_submitted(const QString &filepath)
 
     m_freader->readFile(filepath);
 }
+
+//Вынести в структуру
+void App::connectToServer(const QString &host, int port, const QString &login, const QString &password)
+{
+    this->m_mailgun->setupConnection(host,port,login,password);
+
+}
+
 
 void App::file_read(QStringList emails_list)
 {

@@ -4,16 +4,22 @@ Item {
     property alias lview: lview
     property alias rect: rect
 
-    Rectangle {
-        width: parent.width
-        height: parent.height
-        id: rect
-        color: "green"
+     Rectangle {
+         id:rect
+        anchors.fill: parent
+        radius: 5
+        color: "white"
 
         ListView {
-            width: parent.width
-            height: parent.height
             id: lview
+            anchors.fill: parent
+            anchors.margins: {
+                left: 10
+                right: 10
+                top: 15
+                bottom: 15
+            }
+
             delegate: Rectangle {
                 color: "transparent"
                 height: text.implicitHeight + 4
@@ -23,9 +29,6 @@ Item {
                     font.pixelSize: 18
                     text: modelData
                 }
-            }
-            highlight: Rectangle {
-                color: "grey"
             }
 
         }

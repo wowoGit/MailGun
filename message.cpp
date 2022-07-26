@@ -12,9 +12,10 @@ Message::~Message()
    delete m_message;
 }
 
-Message &Message::setRecipient(EmailAddress *address)
+Message &Message::setRecipient(const QString& address)
 {
-    this->m_message->addRecipient(address);
+    EmailAddress* addr = new EmailAddress(address);
+    this->m_message->addRecipient(addr);
     return *this;
 }
 
@@ -24,9 +25,10 @@ Message &Message::addSubject(const QString &subject)
     return *this;
 }
 
-Message &Message::setSender(EmailAddress *address)
+Message &Message::setSender(const QString& address)
 {
-    this->m_message->setSender(address);
+    EmailAddress* addr = new EmailAddress(address);
+    this->m_message->setSender(addr);
     return *this;
 }
 
@@ -39,9 +41,10 @@ Message &Message::addFiles(QVector<MimeFile*> files)
    return *this;
 }
 
-Message &Message::setMessage(MimeText *text)
+Message &Message::setMessage(const QString& text)
 {
-    this->m_message->addPart(text);
+    MimeText* mtext = new MimeText(text);
+    this->m_message->addPart(mtext);
     return *this;
 }
 

@@ -5,6 +5,7 @@ import QtQuick.Controls.Styles 1.4
 
 Item {
     Layout.fillWidth: true
+    property alias text: ta.text
      Rectangle {
          id:rect
         anchors.fill: parent
