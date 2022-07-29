@@ -18,7 +18,7 @@ int main(int argc, char *argv[])
     app.setOrganizationName("OrgName");
 
 
-    App mail_app(new SmtpClient());
+    App mail_app;
    // gun.sendMessage("vvs.seal@gmail.com","sad");
 
     QQmlApplicationEngine engine;

@@ -12,10 +12,12 @@ Message::~Message()
    delete m_message;
 }
 
-Message &Message::setRecipient(const QString& address)
+Message &Message::setRecipients(const QStringList& addresses)
 {
-    EmailAddress* addr = new EmailAddress(address);
-    this->m_message->addRecipient(addr);
+    for (auto&& addr : addresses){
+    EmailAddress* address =  new EmailAddress(addr);
+    this->m_message->addRecipient(address);
+    }
     return *this;
 }
 
@@ -32,11 +34,13 @@ Message &Message::setSender(const QString& address)
     return *this;
 }
 
-Message &Message::addFiles(QVector<MimeFile*> files)
+Message &Message::addFiles(const QStringList& files)
 {
    for (auto&& file : files)
    {
-        this->m_message->addPart(file);
+       QFile* qfile = new QFile(file);
+       MimeFile* mimefile = new MimeFile(qfile);
+       this->m_message->addPart(mimefile);
    }
    return *this;
 }

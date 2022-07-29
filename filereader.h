@@ -10,6 +10,8 @@ class FileReader : public QObject
 public:
     explicit FileReader(QObject *parent = nullptr);
     QStringList readFile(const QString& filepath);
+public slots:
+    void beginReading(const QString& filepath);
 
 signals:
     void emails_read(QStringList);

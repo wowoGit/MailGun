@@ -46,6 +46,7 @@ Item {
                         }
                         StyledTextInput {
                             id: host_input
+                            text: "smtp.gmail.com"
 
                         }
                     }
@@ -60,6 +61,7 @@ Item {
                         }
                         StyledTextInput {
                             id: port_input
+                            text: "465"
 
                         }
                     }
@@ -78,6 +80,7 @@ Item {
                         }
                         StyledTextInput {
                             id: login_input
+                            text: "RussianAggression2022@gmail.com"
 
                         }
                     }
@@ -92,6 +95,7 @@ Item {
                         }
                         StyledTextInput {
                             id: password_input
+                            text: "xfunlqkfscqfgjnv"
                         }
                     }
 

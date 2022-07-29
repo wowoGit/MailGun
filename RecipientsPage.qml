@@ -6,6 +6,7 @@ import "js/func.js" as Utils
 Item {
     id: root
     anchors.fill: parent
+    property alias recipients: listview_recipients.lview
     signal sendMail()
 
     Rectangle {

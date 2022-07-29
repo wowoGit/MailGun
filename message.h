@@ -13,10 +13,10 @@ class Message
 public:
     Message();
     ~Message();
-    Message& setRecipient(const QString& address);
+    Message& setRecipients(const QStringList& address);
     Message& addSubject(const QString& subject);
     Message& setSender(const QString& address);
-    Message& addFiles(QVector<MimeFile*> files);
+    Message& addFiles(const QStringList& files);
     Message& setMessage(const QString& text);
     MimeMessage* build();
 

@@ -4,7 +4,7 @@
 #include <QObject>
 
 
-class MimeMessage;
+class Message;
 
 class MailGun : public QObject
 {
@@ -18,18 +18,22 @@ public:
        QString recipient_address;
        QVector<class QFile*> attached_files;
     };
-    explicit MailGun(class SmtpClient* smtp_client,QObject *parent = nullptr);
+    explicit MailGun(QObject *parent = nullptr);
     void setupConnection(const QString& host, int port, const QString& login, const QString& password);
-    bool sendMessage(const QString& header, const QString& body,const QString& recipient);
+    bool sendMessage(Message* message);
     ~MailGun();
 
 
 private:
-    SmtpClient* m_client;
+    class SmtpClient* m_client;
 
-
+public slots:
+    void beginMailing(Message*);
+    void beginConnection(const QString &host, int port, const QString &login, const QString &password);
 
 signals:
+
+
 
 };
 

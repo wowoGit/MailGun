@@ -8,6 +8,7 @@ Item {
     anchors.fill: parent
     property alias mailHeader: header_input.text
     property alias mailMessage: message_input.text
+    property alias attached_files: attached_files.text
 
     Rectangle {
         anchors.fill: parent
@@ -80,7 +81,7 @@ Item {
                     RowLayout {
                         Layout.alignment: Qt.AlignRight
                         StyledText {
-                            id: text;
+                            id: attached_files;
                         }
                         ColumnLayout {
                             StyledButton {
@@ -99,7 +100,7 @@ Item {
 
         FileDialog {
             id: fd
-            onAccepted: text.text += Utils.fnamefromFpath(fd.fileUrl)
+            onAccepted: attached_files.text += Utils.getModelFileName(fd.fileUrl)
 
         }
 }

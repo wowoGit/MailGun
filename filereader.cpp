@@ -25,7 +25,6 @@ QStringList FileReader::readFile(const QString &filepath)
     }
 
 
-
     QTextStream stream(this->m_qfile);
     stream.setCodec("UTF-8");
 
@@ -35,6 +34,11 @@ QStringList FileReader::readFile(const QString &filepath)
     emit emails_read(split_content);
     return split_content;
 
+}
+
+void FileReader::beginReading(const QString &filepath)
+{
+    this->readFile(filepath);
 }
 
 bool FileReader::fileExist()
