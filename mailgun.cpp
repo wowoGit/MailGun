@@ -49,7 +49,10 @@ bool MailGun::sendMessage(Message* message)
 
 MailGun::~MailGun()
 {
+    if (m_client)
     m_client->quit();
+
+    delete m_client;
 }
 
 void MailGun::beginMailing(Message *message)

@@ -41,6 +41,7 @@ public slots:
    void connectToServer(const QString& host, int port, const QString& login, const QString& password );
 private slots:
    void file_read(QStringList);
+   void quitThreads();
 
 };
 

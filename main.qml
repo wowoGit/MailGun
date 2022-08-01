@@ -113,7 +113,6 @@ ApplicationWindow
                     sidebar.animOpen.start();
                     sidebar_btn.slideOpen.start();
                     sidebar_btn.rotateclose.start();
-                    console.log(item.x)
                 }
                 else{
                     sidebar.animClose.start();

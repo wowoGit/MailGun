@@ -17,5 +17,6 @@
         <file>StyledText.qml</file>
         <file>RecipientsPage.qml</file>
         <file>js/func.js</file>
+        <file>StyledPopUp.qml</file>
     </qresource>
 </RCC>

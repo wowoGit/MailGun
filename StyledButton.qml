@@ -11,8 +11,7 @@ Item {
     signal clicked()
     RoundButton{
           id: rbutton;
-            width: parent.width
-            height: parent.height
+          anchors.fill: root
             text: "Button"
             contentItem: Text {
                 id: contItem

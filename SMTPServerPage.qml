@@ -2,6 +2,7 @@ import QtQuick 2.0
 import QtQuick.Layouts 1.3
 import QtQuick.Controls 2.15
 Item {
+    id: root
     anchors.fill: parent
     property alias host: host_input.text
     property alias port: port_input.text
@@ -106,31 +107,21 @@ Item {
                    StyledButton {
                        id: connect_button
                        text: "Connect"
-                       onClicked: connect()
+                       onClicked: {
+                           //connect()
+                           console.log(smtp_page.width)
+                           popup.state = "failure";
+                           popup.open();
+                       }
                    }
 
                 }
 
             }
-        }
-//        Popup {
-//            contentItem:
-//                Text {
-//                    text: "asd"
-//                }
-//            id: popup
-//                    x: 100
-//                    y: 100
-//                    width: 200
-//                    height: 300
-//                    modal: true
-//                    focus: true
-//                    closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutsideParent
-//            Component.onCompleted: popup.open()
+            StyledPopUp {
+                id: popup
 
-//            enter: Transition {
-//                NumberAnimation { property: "opacity"; from: 0.0; to: 1.0 }
-//            }
-//        }
+            }
+        }
     }
 

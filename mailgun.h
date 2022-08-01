@@ -25,13 +25,14 @@ public:
 
 
 private:
-    class SmtpClient* m_client;
+    class SmtpClient* m_client = nullptr;
 
 public slots:
     void beginMailing(Message*);
     void beginConnection(const QString &host, int port, const QString &login, const QString &password);
 
 signals:
+    void mailingFinished();
 
 
 

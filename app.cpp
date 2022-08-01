@@ -4,6 +4,7 @@
 #include "filereader.h"
 #include "mailgun.h"
 #include "message.h"
+#include <QCoreApplication>
 
 App::App(QObject *parent)
     : QObject{parent}
@@ -15,14 +16,15 @@ App::App(QObject *parent)
    m_freader->connect(m_freader, &FileReader::emails_read,this,&App::file_read);
    m_mailgun->moveToThread(senderThread);
    m_freader->moveToThread(readerThread);
-   senderThread->start();
-   readerThread->start();
-
    this->connect(this, &App::readyToMail,m_mailgun,&MailGun::beginMailing);
    this->connect(this, &App::readyToRead,m_freader,&FileReader::beginReading);
    this->connect(this, &App::readyToConnect,m_mailgun,&MailGun::beginConnection);
-   this->connect(this, SIGNAL(destroyed()), senderThread, SLOT(quit()));
-   this->connect(this, SIGNAL(destroyed()), readerThread, SLOT(quit()));
+   this->connect(readerThread, &QThread::finished,m_freader,&QObject::deleteLater);
+   this->connect(senderThread, &QThread::finished,m_mailgun,&QObject::deleteLater);
+   this->connect(senderThread, &QThread::finished,m_mailgun,&QObject::deleteLater);
+   senderThread->start();
+   readerThread->start();
+
 }
 
 const QStringList &App::recipients() const
@@ -51,6 +53,10 @@ void App::sendAll(const QString& header, const QString& body, const QString& att
 
 App::~App()
 {
+    senderThread->quit();
+    readerThread->quit();
+    senderThread->wait();
+    readerThread->wait();
 }
 
 void App::file_submitted(const QString &filepath)
@@ -75,4 +81,12 @@ void App::file_read(QStringList emails_list)
     m_recipients.append(emails_list);
     //emit process_emails(view_list);
     emit recipientsChanged();
+}
+
+void App::quitThreads()
+{
+   senderThread->quit();
+   readerThread->quit();
+   senderThread->wait();
+   readerThread->wait();
 }
