@@ -21,7 +21,9 @@ App::App(QObject *parent)
    this->connect(this, &App::readyToConnect,m_mailgun,&MailGun::beginConnection);
    this->connect(readerThread, &QThread::finished,m_freader,&QObject::deleteLater);
    this->connect(senderThread, &QThread::finished,m_mailgun,&QObject::deleteLater);
-   this->connect(senderThread, &QThread::finished,m_mailgun,&QObject::deleteLater);
+   this->connect(this, &QObject::destroyed, senderThread, &QThread::quit);
+   this->connect(this, &QObject::destroyed, readerThread, &QThread::quit);
+   this->connect(m_mailgun, &MailGun::connectionResult, this, &App::connectionResult);
    senderThread->start();
    readerThread->start();
 

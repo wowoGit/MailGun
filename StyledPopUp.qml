@@ -3,8 +3,20 @@ import QtQuick.Controls 2.15
 import QtGraphicalEffects 1.12
 Item {
 
-        function open(){
+        function open(status){
             visible = true;
+            switch(status) {
+            case 0: // CONNECTION_SUCCESS
+                state = "success"
+                break
+            case 1: // CONNECTION_FAIL
+                state = "failure"
+                break
+            case 2: // CONNECTION_FAIL
+                state = "login_failure"
+                break
+            }
+
             root.open();
         }
         states: [
@@ -23,6 +35,16 @@ Item {
                 PropertyChanges {
                     target: text
                     text: "Failure"
+                    color: Qt.lighter("#E53935")
+
+
+                }
+            },
+            State {
+                name: "login_failure"
+                PropertyChanges {
+                    target: text
+                    text: "Failed to login"
                     color: Qt.lighter("#E53935")
 
 

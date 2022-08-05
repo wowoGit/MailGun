@@ -1,6 +1,7 @@
 import QtQuick 2.0
 import QtQuick.Layouts 1.3
 import QtQuick.Controls 2.15
+import Status 1.0
 Item {
     id: root
     anchors.fill: parent
@@ -8,7 +9,12 @@ Item {
     property alias port: port_input.text
     property alias login: login_input.text
     property alias password: password_input.text
+    property int conStatus: -1
     signal connect()
+    onConStatusChanged: {
+        console.log("hello")
+        popup.open(conStatus)
+    }
     Rectangle {
         anchors.fill: parent
         color: "#365C7D"
@@ -108,10 +114,9 @@ Item {
                        id: connect_button
                        text: "Connect"
                        onClicked: {
-                           //connect()
-                           console.log(smtp_page.width)
-                           popup.state = "failure";
-                           popup.open();
+                           connect()
+                          //popup.state = "failure";
+                          //popup.open();
                        }
                    }
 

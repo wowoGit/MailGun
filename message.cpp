@@ -16,6 +16,7 @@ Message &Message::setRecipients(const QStringList& addresses)
 {
     for (auto&& addr : addresses){
     EmailAddress* address =  new EmailAddress(addr);
+    address->setParent(m_message);
     this->m_message->addRecipient(address);
     }
     return *this;
@@ -30,6 +31,7 @@ Message &Message::addSubject(const QString &subject)
 Message &Message::setSender(const QString& address)
 {
     EmailAddress* addr = new EmailAddress(address);
+    addr->setParent(m_message);
     this->m_message->setSender(addr);
     return *this;
 }
@@ -40,6 +42,7 @@ Message &Message::addFiles(const QStringList& files)
    {
        QFile* qfile = new QFile(file);
        MimeFile* mimefile = new MimeFile(qfile);
+       mimefile->setParent(m_message);
        this->m_message->addPart(mimefile);
    }
    return *this;

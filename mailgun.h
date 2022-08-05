@@ -2,6 +2,7 @@
 #define MAILGUN_H
 
 #include <QObject>
+#include "status.h"
 
 
 class Message;
@@ -18,6 +19,7 @@ public:
        QString recipient_address;
        QVector<class QFile*> attached_files;
     };
+
     explicit MailGun(QObject *parent = nullptr);
     void setupConnection(const QString& host, int port, const QString& login, const QString& password);
     bool sendMessage(Message* message);
@@ -33,6 +35,7 @@ public slots:
 
 signals:
     void mailingFinished();
+    void connectionResult(Status::ConnectionResult);
 
 
 

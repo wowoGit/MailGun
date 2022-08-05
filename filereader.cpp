@@ -31,7 +31,6 @@ QStringList FileReader::readFile(const QString &filepath)
     QString blob_content = stream.readAll();
     QStringList split_content = blob_content.split("\n");
     m_qfile->close();
-    qDebug() << this;
     emit emails_read(split_content);
     return split_content;
 

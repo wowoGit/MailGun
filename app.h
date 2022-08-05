@@ -2,16 +2,13 @@
 #define APP_H
 
 #include <QObject>
+#include "status.h"
 
 class App : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(QStringList recipients READ recipients NOTIFY recipientsChanged)
 public:
-    enum MessageStatus {
-        SUCCESS,
-        FAIL
-    };
 
     explicit App(QObject *parent = nullptr);
     const QStringList& recipients() const;
@@ -31,10 +28,11 @@ private:
 signals:
     void process_emails(QString emails_list);
     void recipientsChanged();
-    void messageSent(size_t index, App::MessageStatus status);
+    void messageSent(size_t index);
     void readyToMail(Message*);
     void readyToRead(const QString&);
     void readyToConnect(const QString& host, int port, const QString& login, const QString& password );
+    void connectionResult(Status::ConnectionResult);
 
 public slots:
    void file_submitted(const QString& filepath);

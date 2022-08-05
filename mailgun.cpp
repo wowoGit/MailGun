@@ -1,36 +1,42 @@
 #include "mailgun.h"
 #include "SmtpMime"
 #include "message.h"
-
+#include <QThread>
+#include <QtQml/qqml.h>
 MailGun::MailGun(QObject *parent)
     : QObject{parent}
 {
 
-   // m_m_client = new SmtpClient("smtp.gmail.com",465,SmtpClient::SslConnection);
-   // m_m_client->setUser(QString::fromStdString(bot_mail));
-   // m_m_client->setPassword(QString::fromStdString(mail_pass));
-   // m_m_client->connectToHost();
-   // m_m_client->login();
+    qRegisterMetaType<Status::ConnectionResult>();
+    qmlRegisterUncreatableType<Status>("Status", 1, 0, "Status",
+                                            "Not creatable as it is an enum type.");
 }
 
 void MailGun::setupConnection(const QString &host, int port, const QString &login, const QString &password)
 {
+
+    if(m_client)
+        delete m_client;
+
 
     m_client = new SmtpClient(host,port,SmtpClient::SslConnection);
     m_client->setUser(login);
     m_client->setPassword(password);
     if (!m_client->connectToHost()) {
        qDebug() << "could not connect to provided host!";
+       emit connectionResult(Status::ConnectionResult::CONNECTION_FAIL);
+       return;
     }
     else {
        qDebug() << "Connected to the host!";
     }
     if(!m_client->login()) {
        qDebug() << "could not login with provided credentials!";
+       emit connectionResult(Status::ConnectionResult::LOGIN_FAIL);
+       return;
     }
-    else {
        qDebug() << "Connected with provided credentials!";
-    }
+       emit connectionResult(Status::ConnectionResult::CONNECTION_SUCCESS);
 }
 
 bool MailGun::sendMessage(Message* message)
@@ -39,9 +45,13 @@ bool MailGun::sendMessage(Message* message)
    MimeMessage* mail = message->build();
    if (m_client->sendMail(*mail)){
        delete message;
-       return true;
+       //return true;
    }
-
+   QThread::sleep(5);
+   auto text = m_client->getResponseText();
+   auto code = m_client->getResponseCode();
+   qDebug() << text << code;
+    return true;
 
    delete message;
    return false;

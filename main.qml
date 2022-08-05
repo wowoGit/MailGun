@@ -76,6 +76,14 @@ ApplicationWindow
     SMTPServerPage {
         id: smtp_page
         onConnect: app.connectToServer(smtp_page.host,smtp_page.port, smtp_page.login, smtp_page.password)
+        Connections {
+            target: app
+            function onConnectionResult(status)
+            {
+                console.log(status)
+                smtp_page.conStatus = status
+            }
+        }
     }
     MessagePage {id: message_page}
     RecipientsPage {
@@ -89,17 +97,6 @@ ApplicationWindow
     FontLoader {
        id: faregular
        source: './font/fa-regular.otf'
-    }
-
-    Connections {
-        target: fd
-        onAccepted: {
-                var path = fd.fileUrl.toString();
-                var path_model = path.replace("file:///","");
-                var path_view = path.split('/').pop();
-                ti.text = path_view;
-                app.file_submitted(path_model);
-        }
     }
 
     SideBar {

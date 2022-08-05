@@ -81,6 +81,7 @@ Item {
                     RowLayout {
                         Layout.alignment: Qt.AlignRight
                         StyledText {
+                            Layout.fillWidth: true
                             id: attached_files;
                         }
                         ColumnLayout {
@@ -100,7 +101,9 @@ Item {
 
         FileDialog {
             id: fd
-            onAccepted: attached_files.text += Utils.getModelFileName(fd.fileUrl)
+            onAccepted: {
+                attached_files.text += Utils.getViewFileName(fd.fileUrl) + " "
+            }
 
         }
 }
