@@ -1,18 +1,19 @@
 import QtQuick 2.0
 import QtQuick.Controls 2.15
 import QtGraphicalEffects 1.12
+import Status 1.0
 Item {
 
         function open(status){
             visible = true;
             switch(status) {
-            case 0: // CONNECTION_SUCCESS
+            case Status.CONNECTION_SUCCESS: // CONNECTION_SUCCESS
                 state = "success"
                 break
-            case 1: // CONNECTION_FAIL
+            case Status.CONNECTION_FAIL: // CONNECTION_FAIL
                 state = "failure"
                 break
-            case 2: // CONNECTION_FAIL
+            case Status.LOGIN_FAIL: // LOGIN_FAIL
                 state = "login_failure"
                 break
             }

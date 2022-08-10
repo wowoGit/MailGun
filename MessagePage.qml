@@ -1,14 +1,18 @@
-import QtQuick 2.0
+import QtQuick 2.15
 import QtQuick.Layouts 1.3
 import QtQuick.Dialogs 1.3
+import QtQuick.Controls 2.15
 import "js/func.js" as Utils
 
+
 Item {
+
+
     id: root
     anchors.fill: parent
     property alias mailHeader: header_input.text
     property alias mailMessage: message_input.text
-    property alias attached_files: attached_files.text
+    //property alias attached_files: attached_files.text
 
     Rectangle {
         anchors.fill: parent
@@ -79,12 +83,58 @@ Item {
 
 
                     RowLayout {
-                        Layout.alignment: Qt.AlignRight
-                        StyledText {
-                            Layout.fillWidth: true
-                            id: attached_files;
+                        ListModel {
+                           id: model
                         }
+
+                        ListView {
+
+                            property int prevCount: -1
+                            property int hideIndex: 0
+                            Layout.fillWidth: true
+                            height: 20
+                            spacing: 20
+                            orientation: ListView.Horizontal
+                            model: model
+                            id: lv
+                            onCountChanged: {
+                                if (prevCount >= count){
+                                    prevCount = count -1
+                                    if(hideIndex > 0){
+                                        console.log(lv.hideIndex)
+                                console.log("new count: " +count )
+                                        if (lv.itemAtIndex(hideIndex-1).x + lv.itemAtIndex(hideIndex-1).width < lv.width) {
+                                            model.get(hideIndex-1).sometext = model.get(hideIndex-1).hide
+                                        }
+                                    }
+                                }
+
+                            }
+
+                            delegate:
+                        StyledText {
+                            property string hide
+                            horizontalAlignment: Qt.AlignTop
+                            id: outer
+                            text: sometext
+                                 Text {
+                                     id: icon
+                                     anchors.left: outer.right
+                                     font.family: fasolid.name
+                                     text: "\uf1f8"
+                                     font.pixelSize: 14
+                                     color:"#FF7582"
+                                     MouseArea {
+                                         anchors.fill: icon
+                                         onClicked: delete_item(index)
+                                     }
+                                 }
+                        }
+                            }
+
                         ColumnLayout {
+
+
                             StyledButton {
                             width: 100
                             text: "Attach files..."
@@ -97,13 +147,31 @@ Item {
 }
 }
 
+        function delete_item(index){
+            model.remove(index)
+        }
 
 
         FileDialog {
             id: fd
             onAccepted: {
-                attached_files.text += Utils.getViewFileName(fd.fileUrl) + " "
+                //attached_files.text += Utils.getViewFileName(fd.fileUrl) + " "
+                model.append({"sometext": Utils.getViewFileName(fd.fileUrl)})
+                lv.forceLayout()
+                    lv.prevCount +=1
+                console.log(lv.count)
+                const newitem = lv.itemAtIndex(lv.count - 1)
+                console.log(item.x)
+                if((newitem.x + newitem.width) > lv.width- 50){
+                model.remove(lv.count -1)
+                model.append({"sometext": "...","hide":Utils.getViewFileName(fd.fileUrl)})
+                lv.hideIndex = lv.count - 1
+                    return;
+                }
+
             }
 
         }
 }
+
+

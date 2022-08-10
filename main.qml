@@ -96,7 +96,11 @@ ApplicationWindow
 
     FontLoader {
        id: faregular
-       source: './font/fa-regular.otf'
+       source: './font/fa-reg.ttf'
+    }
+    FontLoader {
+       id: fasolid
+       source: './font/fa-solid.ttf'
     }
 
     SideBar {

@@ -102,6 +102,7 @@ Item {
                         }
                         StyledTextInput {
                             id: password_input
+                            echoMode: TextInput.Password
                             text: "xfunlqkfscqfgjnv"
                         }
                     }
