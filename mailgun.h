@@ -6,6 +6,7 @@
 
 
 class Message;
+class QNetworkProxy;
 
 class MailGun : public QObject
 {
@@ -21,8 +22,9 @@ public:
     };
 
     explicit MailGun(QObject *parent = nullptr);
-    void setupConnection(const QString& host, int port, const QString& login, const QString& password);
+    void setupConnection(const QString& host, int port, const QString& login, const QString& password, QNetworkProxy proxy);
     bool sendMessage(Message* message);
+    void setProxy(QNetworkProxy proxy);
     ~MailGun();
 
 

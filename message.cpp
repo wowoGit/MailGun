@@ -14,12 +14,18 @@ Message::~Message()
 
 Message &Message::setRecipients(const QStringList& addresses)
 {
+    list_ref = &addresses;
     for (auto&& addr : addresses){
     EmailAddress* address =  new EmailAddress(addr);
     address->setParent(m_message);
     this->m_message->addRecipient(address);
     }
     return *this;
+}
+
+const QStringList& Message::getRecipients() const
+{
+    return *list_ref;
 }
 
 Message &Message::addSubject(const QString &subject)

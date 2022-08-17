@@ -1,7 +1,7 @@
-import QtQuick 2.0
+import QtQuick 2.12
 import QtQuick.Layouts 1.3
 import QtQuick.Controls 2.15
-import Status 1.0
+//import Status 1.0
 Item {
     id: root
     anchors.fill: parent
@@ -20,7 +20,7 @@ Item {
         color: "#365C7D"
     }
 
-        RowLayout {
+        ColumnLayout {
         Layout.alignment: Qt.AlignTop
         anchors.fill: parent
             ColumnLayout {
@@ -52,6 +52,7 @@ Item {
                             color:"#CACACA"
                         }
                         StyledTextInput {
+                            implicitWidth: 150
                             id: host_input
                             text: "smtp.gmail.com"
 
@@ -67,6 +68,7 @@ Item {
                             color:"#CACACA"
                         }
                         StyledTextInput {
+                            implicitWidth: 150
                             id: port_input
                             text: "465"
 
@@ -86,6 +88,7 @@ Item {
                             color:"#CACACA"
                         }
                         StyledTextInput {
+                            implicitWidth: 150
                             id: login_input
                             text: "RussianAggression2022@gmail.com"
 
@@ -101,6 +104,7 @@ Item {
                             color:"#CACACA"
                         }
                         StyledTextInput {
+                            implicitWidth: 150
                             id: password_input
                             echoMode: TextInput.Password
                             text: "xfunlqkfscqfgjnv"
@@ -123,7 +127,96 @@ Item {
 
                 }
 
+
+
+                RowLayout {
+
+                    Rectangle {
+                        Layout.fillWidth: true
+                        color: "red"
+                    }
+
+            ColumnLayout {
+                Layout.topMargin: 50
+                RowLayout {
+
+                    CheckBox {
+                        id:control
+                        text: "Use proxy"
+                        indicator: Rectangle {
+                            id: outer
+                               implicitWidth: 16
+                               implicitHeight: 16
+                               y: parent.height / 2 - height / 2
+                               radius: 3
+                               border.color: control.checked ? Qt.lighter("#4bb543") : "#CACACA"
+
+                               Rectangle {
+                                   anchors.centerIn : outer
+                                   width: 10
+                                   height: 10
+                                   radius: 2
+                                   color: control.checked ? Qt.lighter("#4bb543") : "#CACACA"
+                                   visible: control.checked
+                               }
+                           }
+
+                           contentItem: StyledText {
+                               text: control.text
+                               opacity: enabled ? 1.0 : 0.3
+                               color: control.down ? Qt.lighter("#4bb543") : "#CACACA"
+                               verticalAlignment: Text.AlignVCenter
+                               leftPadding: control.indicator.width + control.spacing
+                           }
+                    }
+                }
+                RowLayout {
+
+                    ColumnLayout {
+                        Text {
+                            enabled: control.checked
+                            text: "IP address"
+                            font.family: "Inter"
+                            font.weight: Font.DemiBold
+                            font.pixelSize: 12
+                            color:"#CACACA"
+                        }
+                        StyledTextInput {
+                            implicitWidth: 250
+                            enabled: control.checked
+                            //inputMask: "000.000.000.000;_"
+                            validator:RegExpValidator
+                            {
+                              regExp:/^(([01]?[0-9]?[0-9]|2([0-4][0-9]|5[0-5]))\.){3}([01]?[0-9]?[0-9]|2([0-4][0-9]|5[0-5]))$/
+                            }
+
+                        }
+                    }
+                    ColumnLayout {
+                    Layout.alignment: Qt.AlignHCenter
+                        Text {
+                            enabled: control.checked
+                            text: "Port"
+                            font.family: "Inter"
+                            font.weight: Font.DemiBold
+                            font.pixelSize: 12
+                            color:"#CACACA"
+                        }
+                        StyledTextInput {
+                            implicitWidth: 100
+                            validator: IntValidator {bottom: 1; top: 10000}
+                            enabled: control.checked
+                        }
+                    }
+                }
             }
+                    Rectangle {
+                        Layout.fillWidth: true
+                        color: "red"
+                    }
+                }
+                }
+
             StyledPopUp {
                 id: popup
 

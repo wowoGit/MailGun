@@ -18,11 +18,16 @@ public:
     Message& setSender(const QString& address);
     Message& addFiles(const QStringList& files);
     Message& setMessage(const QString& text);
+    const QStringList& getRecipients() const;
+    const QString& getSubject() const;
+    QList<MimePart*>& getContent() const;
+    const EmailAddress& getSender(const QString& text);
     MimeMessage* build();
 
 
 private:
     class MimeMessage* m_message;
+    const QStringList* list_ref = nullptr;
 };
 
 #endif // MESSAGE_H
