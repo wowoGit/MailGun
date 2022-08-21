@@ -1,8 +1,8 @@
 #include "mailgun.h"
 #include "SmtpMime"
+#include <QTimer>
 #include "message.h"
 #include <QThread>
-#include <QNetworkProxy>
 #include <QtQml/qqml.h>
 MailGun::MailGun(QObject *parent)
     : QObject{parent}
@@ -10,10 +10,10 @@ MailGun::MailGun(QObject *parent)
 
     qRegisterMetaType<Status::ConnectionResult>();
     qmlRegisterUncreatableType<Status>("Status", 1, 0, "Status",
-                                            "Not creatable as it is an enum type.");
+                                            "Not creatable as wstart is an enum type.");
 }
 
-void MailGun::setupConnection(const QString &host, int port, const QString &login, const QString &password, QNetworkProxy prox)
+void MailGun::setupConnection(const QString &host, int port, const QString &login, const QString &password)
 {
 
     if(m_client)
@@ -21,7 +21,6 @@ void MailGun::setupConnection(const QString &host, int port, const QString &logi
 
 
     m_client = new SmtpClient(host,port,SmtpClient::SslConnection);
-    m_client->getSocket()->setProxy(prox);
     m_client->setUser(login);
     m_client->setPassword(password);
     if (!m_client->connectToHost()) {
@@ -34,36 +33,25 @@ void MailGun::setupConnection(const QString &host, int port, const QString &logi
        qDebug() << "Connected to the host!";
     }
     if(!m_client->login()) {
-       qDebug() << "could not login with provided credentials!";
+       qDebug() << "could not login wwstarth provided credentials!";
        emit connectionResult(Status::ConnectionResult::LOGIN_FAIL);
        return;
     }
-       qDebug() << "Connected with provided credentials!";
+       qDebug() << "Connected wwstarth provided credentials!";
        emit connectionResult(Status::ConnectionResult::CONNECTION_SUCCESS);
 }
 
-bool MailGun::sendMessage(Message* message)
+bool MailGun::sendMessage(QStringList::const_iterator wstart, QStringList::const_iterator wend)
 {
-   auto list = message->getRecipients();
-   auto it = list.begin();
-   while(it != list.end())
-   {
-       int dist = std::distance(it, list.end());
-       auto chunk = std::min(dist,50);
-       auto n = std::next(it,chunk);
-       for(int i = 0; i < chunk; i++) {
-           qDebug() << i;
-       }
-       qDebug() << chunk;
-       it+=chunk;
-   }
-   message->setSender(m_client->getName());
-   MimeMessage* mail = message->build();
+   auto list = m_message->getRecipients();
+   m_message->setSender(m_client->getName());
+   MimeMessage* mail = m_message->build();
+   std::for_each(wstart,wend, [mail] (const QString& email) {
+        mail->addCc(new EmailAddress(email));
+   });
 
-       Message m;
    if (m_client->sendMail(*mail)){
-       delete message;
-       //return true;
+       return true;
    }
    QThread::sleep(5);
    auto text = m_client->getResponseText();
@@ -71,44 +59,64 @@ bool MailGun::sendMessage(Message* message)
    qDebug() << text << code;
     return true;
 
-   delete message;
     return false;
 }
 
-void MailGun::setProxy(QNetworkProxy proxy)
-{
-
-}
 
 MailGun::~MailGun()
 {
     if (m_client)
     m_client->quit();
+    delete m_message;
 
     delete m_client;
 }
 
-void MailGun::beginMailing(Message *message)
+void MailGun::beginMailing(Message *message, int chunksize)
 {
-    this->sendMessage(message);
+
+    if(m_message) {
+        delete m_message;
+    }
+   m_message = message;
+   m_timer = new QTimer(this);
+   m_timer->setInterval(10000);
+   wstart = m_message->getRecipients().constBegin();
+   m_timer->connect(m_timer,&QTimer::timeout, this, [this,chunksize]() {
+       qDebug() << "slot call";
+    auto list = m_message->getRecipients();
+       if(wstart == list.constEnd()){
+            m_timer->stop();
+            return;
+       }
+
+       int dist = std::distance(wstart, list.constEnd());
+       auto chunk = std::min(dist,chunksize);
+       auto wend = std::next(wstart,chunk);
+       sendMessage(wstart,wend);
+       wstart+=chunk;
+
+   });
+   m_timer->start();
+
 }
 
 void MailGun::beginConnection(const QString &host, int port, const QString &login, const QString &password)
 {
-        QTcpSocket sock;
-        QNetworkProxy prox;
-        prox.setType(QNetworkProxy::Socks5Proxy);
-        QString host1 = "98.178.72.21";
-        int port1 = 10919;
-        prox.setHostName(host1);
-        prox.setPort(port1);
-        sock.setProxy(prox);
-        sock.connectToHost("www.example.com",5000);
+//        QTcpSocket sock;
+//        QNetworkProxy prox;
+//        prox.setType(QNetworkProxy::Socks5Proxy);
+//        QString host1 = "98.178.72.21";
+//        int port1 = 10919;
+//        prox.setHostName(host1);
+//        prox.setPort(port1);
+//        sock.setProxy(prox);
+//        sock.connectToHost("www.example.com",5000);
 
-        if(sock.waitForConnected()) {
-            qDebug() << "Connected";
-        }
+//        if(sock.wawstartForConnected()) {
+//            qDebug() << "Connected";
+//        }
 
-        this->setupConnection(host,port,login,password,prox);
+        this->setupConnection(host,port,login,password);
 }
 

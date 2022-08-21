@@ -22,18 +22,21 @@ public:
     };
 
     explicit MailGun(QObject *parent = nullptr);
-    void setupConnection(const QString& host, int port, const QString& login, const QString& password, QNetworkProxy proxy);
-    bool sendMessage(Message* message);
-    void setProxy(QNetworkProxy proxy);
+    void setupConnection(const QString& host, int port, const QString& login, const QString& password);
     ~MailGun();
 
 
 private:
+    class QTimer* m_timer;
+    Message* m_message = nullptr;
     class SmtpClient* m_client = nullptr;
+    QStringList::const_iterator wstart;
 
 public slots:
-    void beginMailing(Message*);
+    void beginMailing(Message* m, int chunksize);
     void beginConnection(const QString &host, int port, const QString &login, const QString &password);
+private slots:
+    bool sendMessage(QStringList::const_iterator wstart, QStringList::const_iterator wend);
 
 signals:
     void mailingFinished();

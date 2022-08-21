@@ -13,7 +13,7 @@ public:
     explicit App(QObject *parent = nullptr);
     const QStringList& recipients() const;
     Q_INVOKABLE
-    void sendAll(const QString& header, const QString& body, const QString& attached_files);
+    void sendAll(const QString& header, const QString& body, const QStringList& attached_files);
     ~App();
 
 private:
@@ -29,7 +29,7 @@ signals:
     void process_emails(QString emails_list);
     void recipientsChanged();
     void messageSent(size_t index);
-    void readyToMail(Message*);
+    void readyToMail(Message*, int chunksize);
     void readyToRead(const QString&);
     void readyToConnect(const QString& host, int port, const QString& login, const QString& password );
     void connectionResult(Status::ConnectionResult);

@@ -34,21 +34,19 @@ const QStringList &App::recipients() const
     return m_recipients;
 }
 
-void App::sendAll(const QString& header, const QString& body, const QString& attached_files)
+void App::sendAll(const QString& header, const QString& body, const QStringList& attached_files)
 {
     if(m_recipients.empty())
     {
         return;
     }
-    QStringList filenames;
-    filenames.append(attached_files);
     auto message = new Message();
     message->addSubject(header)
             .setMessage(body)
-            .addFiles(filenames)
+            .addFiles(attached_files)
             .setRecipients(m_recipients);
 
-    emit readyToMail(message);
+    emit readyToMail(message,2);
 
 }
 

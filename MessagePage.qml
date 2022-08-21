@@ -12,6 +12,19 @@ Item {
     anchors.fill: parent
     property alias mailHeader: header_input.text
     property alias mailMessage: message_input.text
+    property alias attachedFiles: model
+    function getAttachedFiles() {
+       var files = []
+        for(var i = 0; i < model.count; i++) {
+            var item = model.get(i)
+            files.push(item.modelpath)
+        }
+
+        console.log(files)
+        return files
+
+    }
+
     //property alias attached_files: attached_files.text
 
     Rectangle {
@@ -116,9 +129,10 @@ Item {
                             property string hide
                             horizontalAlignment: Qt.AlignTop
                             id: outer
-                            text: sometext
+                            text: viewpath
                                  Text {
                                      id: icon
+                                     visible: outer.text == "..." ? false : true
                                      anchors.left: outer.right
                                      font.family: fasolid.name
                                      text: "\uf1f8"
@@ -156,7 +170,7 @@ Item {
             id: fd
             onAccepted: {
                 //attached_files.text += Utils.getViewFileName(fd.fileUrl) + " "
-                model.append({"sometext": Utils.getViewFileName(fd.fileUrl)})
+                model.append({"viewpath": Utils.getViewFileName(fd.fileUrl), "modelpath":Utils.getModelFileName(fd.fileUrl)})
                 lv.forceLayout()
                     lv.prevCount +=1
                 console.log(lv.count)
@@ -164,8 +178,9 @@ Item {
                 console.log(item.x)
                 if((newitem.x + newitem.width) > lv.width- 50){
                 model.remove(lv.count -1)
-                model.append({"sometext": "...","hide":Utils.getViewFileName(fd.fileUrl)})
+                model.append({"viewpath": "...","hide":Utils.getViewFileName(fd.fileUrl),"modelpath":Utils.getViewFileName(fd.fileUrl)})
                 lv.hideIndex = lv.count - 1
+                    getAttachedFiles()
                     return;
                 }
 

@@ -15,11 +15,11 @@ Message::~Message()
 Message &Message::setRecipients(const QStringList& addresses)
 {
     list_ref = &addresses;
-    for (auto&& addr : addresses){
-    EmailAddress* address =  new EmailAddress(addr);
-    address->setParent(m_message);
-    this->m_message->addRecipient(address);
-    }
+//    for (auto&& addr : addresses){
+//    EmailAddress* address =  new EmailAddress(addr);
+//    address->setParent(m_message);
+//    this->m_message->addRecipient(address);
+//    }
     return *this;
 }
 
@@ -63,5 +63,13 @@ Message &Message::setMessage(const QString& text)
 
 MimeMessage *Message::build()
 {
-   return this->m_message;
+   MimeMessage* mail = new MimeMessage();
+   const auto list = m_message->getParts();
+   std::for_each(list.constBegin(), list.constEnd(), [mail] (MimePart* part) {
+      mail->addPart(part);
+   });
+   mail->setSubject(m_message->getSubject());
+   auto sender = m_message->getSender().getAddress();
+   mail->setSender(new EmailAddress(sender));
+   return mail;
 }

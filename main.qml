@@ -89,7 +89,7 @@ ApplicationWindow
     RecipientsPage {
         id: recipients_page
         onSendMail: {
-            app.sendAll(message_page.mailHeader, message_page.mailMessage,message_page.attached_files)
+            app.sendAll(message_page.mailHeader, message_page.mailMessage,message_page.getAttachedFiles())
         }
     }
     }
