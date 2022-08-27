@@ -41,6 +41,7 @@ private slots:
 signals:
     void mailingFinished();
     void connectionResult(Status::ConnectionResult);
+    void sendResult(int rcptSize, Status::SendResult);
 
 
 

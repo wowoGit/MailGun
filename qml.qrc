@@ -18,5 +18,6 @@
         <file>RecipientsPage.qml</file>
         <file>js/func.js</file>
         <file>StyledPopUp.qml</file>
+        <file>StatusBlock.qml</file>
     </qresource>
 </RCC>

@@ -1,7 +1,7 @@
 import QtQuick 2.12
 import QtQuick.Layouts 1.3
 import QtQuick.Controls 2.15
-//import Status 1.0
+import Status 1.0
 Item {
     id: root
     anchors.fill: parent

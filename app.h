@@ -28,7 +28,7 @@ private:
 signals:
     void process_emails(QString emails_list);
     void recipientsChanged();
-    void messageSent(size_t index);
+    void mailsSent(int rcptSize, Status::SendResult);
     void readyToMail(Message*, int chunksize);
     void readyToRead(const QString&);
     void readyToConnect(const QString& host, int port, const QString& login, const QString& password );

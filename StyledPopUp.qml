@@ -7,13 +7,13 @@ Item {
         function open(status){
             visible = true;
             switch(status) {
-            case Status.CONNECTION_SUCCESS: // CONNECTION_SUCCESS
+            case Status.CONNECTION_SUCCESS:
                 state = "success"
                 break
-            case Status.CONNECTION_FAIL: // CONNECTION_FAIL
+            case Status.CONNECTION_FAIL:
                 state = "failure"
                 break
-            case Status.LOGIN_FAIL: // LOGIN_FAIL
+            case Status.LOGIN_FAIL:
                 state = "login_failure"
                 break
             }

@@ -40,7 +40,7 @@ Flickable {
 
                 Connections {
                     target: app
-                    onRecipientsChanged: {
+                    function onRecipientsChanged() {
                         listview_recipients.lview.model = app.recipients
                         counter.text = listview_recipients.lview.count
 

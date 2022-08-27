@@ -9,7 +9,7 @@ class FileReader : public QObject
     Q_OBJECT
 public:
     explicit FileReader(QObject *parent = nullptr);
-    QStringList readFile(const QString& filepath);
+    virtual QStringList readFile(const QString& filepath);
 public slots:
     void beginReading(const QString& filepath);
 

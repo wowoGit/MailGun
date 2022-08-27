@@ -24,6 +24,7 @@ App::App(QObject *parent)
    this->connect(this, &QObject::destroyed, senderThread, &QThread::quit);
    this->connect(this, &QObject::destroyed, readerThread, &QThread::quit);
    this->connect(m_mailgun, &MailGun::connectionResult, this, &App::connectionResult);
+   this->connect(m_mailgun, &MailGun::sendResult, this, &App::mailsSent);
    senderThread->start();
    readerThread->start();
 
@@ -82,6 +83,7 @@ void App::file_read(QStringList emails_list)
     //emit process_emails(view_list);
     emit recipientsChanged();
 }
+
 
 void App::quitThreads()
 {

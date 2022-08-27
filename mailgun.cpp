@@ -9,6 +9,7 @@ MailGun::MailGun(QObject *parent)
 {
 
     qRegisterMetaType<Status::ConnectionResult>();
+    qRegisterMetaType<Status::SendResult>();
     qmlRegisterUncreatableType<Status>("Status", 1, 0, "Status",
                                             "Not creatable as wstart is an enum type.");
 }
@@ -51,14 +52,9 @@ bool MailGun::sendMessage(QStringList::const_iterator wstart, QStringList::const
    });
 
    if (m_client->sendMail(*mail)){
+       m_client->quit();
        return true;
    }
-   QThread::sleep(5);
-   auto text = m_client->getResponseText();
-   auto code = m_client->getResponseCode();
-   qDebug() << text << code;
-    return true;
-
     return false;
 }
 
@@ -80,7 +76,8 @@ void MailGun::beginMailing(Message *message, int chunksize)
     }
    m_message = message;
    m_timer = new QTimer(this);
-   m_timer->setInterval(10000);
+
+   m_timer->setInterval(300);
    wstart = m_message->getRecipients().constBegin();
    m_timer->connect(m_timer,&QTimer::timeout, this, [this,chunksize]() {
        qDebug() << "slot call";
@@ -93,7 +90,13 @@ void MailGun::beginMailing(Message *message, int chunksize)
        int dist = std::distance(wstart, list.constEnd());
        auto chunk = std::min(dist,chunksize);
        auto wend = std::next(wstart,chunk);
-       sendMessage(wstart,wend);
+       bool result = sendMessage(wstart,wend);
+       if (result == true) {
+           emit sendResult(chunk, Status::SendResult::SEND_SUCCESS);
+       }
+       else {
+           emit sendResult(chunk, Status::SendResult::SEND_ERROR);
+       }
        wstart+=chunk;
 
    });

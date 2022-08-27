@@ -6,7 +6,7 @@
         Q_GADGET
     public:
         explicit Status();
-    enum ServerResponse {
+    enum SendResult {
       SEND_SUCCESS,
       SEND_ERROR
     };
@@ -16,6 +16,6 @@
       LOGIN_FAIL
     };
     Q_ENUM(ConnectionResult)
-    Q_ENUM(ServerResponse)
+    Q_ENUM(SendResult)
     };
 #endif // STATUS_H
