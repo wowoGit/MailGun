@@ -90,7 +90,6 @@ Item {
                         StyledTextInput {
                             implicitWidth: 150
                             id: login_input
-                            text: "RussianAggression2022@gmail.com"
 
                         }
                     }
@@ -107,7 +106,6 @@ Item {
                             implicitWidth: 150
                             id: password_input
                             echoMode: TextInput.Password
-                            text: "xfunlqkfscqfgjnv"
                         }
                     }
 
